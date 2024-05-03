@@ -1,36 +1,72 @@
 library(shiny)
 library(tidyverse)
+library(bslib)
+library(bsicons)
 
 source("setup.R")
 source("helpers.R")
 
-ui <- fluidPage(
-  titlePanel("Effectiveness of DemoCo App Free Trial by Customer Profile"),
-  sidebarLayout(
-    sidebarPanel(
+
+
+ui <- page_sidebar(
+  theme = bs_theme(
+
+
+
+  ),
+
+  title = "Effectiveness of DemoCo App Free Trial by Customer Profile",
+  sidebar = sidebar(
+    # sidebar pannel
+    HTML('<image src = "logo.png" width="50%" height = "auto"  >'),
+
       sidebar_content
-    ),
-    mainPanel(
-      "Conversions over time",
-      plotOutput("line"),
+  ),
+    # main pannel
+      layout_columns(
+        card(card_header("Conversions over time"),
+             plotOutput("line")
+        ),
 
-      "Conversion rates",
-      plotOutput("bar"),
+        card(card_header("Conversion rates"),
+             plotOutput("bar")
+        ),
 
-      "Recommended Trial",
-      textOutput("recommended_eval"),
+        value_box(title="Recommended Trial",
+                  textOutput("recommended_eval"),
+                  showcase = bs_icon("stars")
+        ),
 
-      "Users",
-      textOutput("number_of_users"),
 
-      "Avg Spend",
-      textOutput("average_spend"),
+        value_box(title="Users",
+                 textOutput("number_of_users"),
+                 showcase = bs_icon("people-fill")
+        ),
 
-      "Conversion rates by subgroup",
-      tableOutput("table")
-    )
+        value_box(title="Avg Spend",
+                  textOutput("average_spend"),
+                  showcase = bs_icon("coin")
+        ),
+
+        card(card_header("Conversion rates by subgroup"),
+            tableOutput("table")
+        ),
+
+
+
+
+        # layout_columns always workse in units of 12. If more than 12,
+        # then it will treat as a new row
+        col_widths = c(8,4,    4, 4, 4,   12),  # layout_columns always divides space into 12 units
+        row_heights = c(4, 1.5, 3)  # can use any numbers here, it is all proportional
+              )
   )
-)
+
+
+
+
+
+
 
 
 
